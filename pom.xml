@@ -13,8 +13,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <junit.version>4.13.1</junit.version>
-        <version.arquillian>1.6.0.Final</version.arquillian>
-        <version.wildfly>20.0.1.Final</version.wildfly>
+        <jboss.version>7.3.0.GA</jboss.version>
+<!--        <version.arquillian>1.6.0.Final</version.arquillian>-->
+        <!-- fixme: hardcoded, see:
+         http://www.mastertheboss.com/jboss-server/jboss-eap/what-is-the-difference-between-jboss-eap-wildfly-and-jboss-as
+         and https://www.wildfly.org/downloads/ -->
+        <version.wildfly>18.0.1.Final</version.wildfly>
         <path.to.jboss.deployments.dir>${user.home}/opt/wildfly/standalone/deployments</path.to.jboss.deployments.dir>
         <kensu.api.url></kensu.api.url>
         <kensu.api.token></kensu.api.token>
@@ -47,8 +51,39 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <!-- see https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.3/html/development_guide/using_maven_with_eap#manage_project_dependencies -->
+    <!-- https://mvnrepository.com/artifact/org.jboss.bom/eap-runtime-artifacts/7.3.0.GA -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>eap-runtime-artifacts</artifactId>
+                <version>${jboss.version}</version> <!-- FIXME -->
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.jboss.bom/jboss-eap-jakartaee8-with-tools -->
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-eap-jakartaee8-with-tools</artifactId>
+                <version>${jboss.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                <artifactId>shrinkwrap-resolver-bom</artifactId>
+                <version>2.2.6</version><!-- fixme: hardcoded -->
+<!--                <version>3.1.4</version>-->
+<!--                <version>${version.shrinkwrap.resolvers}</version>-->
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
+        <!-- fixme? -->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
@@ -59,74 +94,89 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.30</version>
-            <scope>provided</scope>
+<!--            <version>1.7.30</version>-->
+<!--            <scope>provided</scope>-->
         </dependency>
 
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.6</version>
+<!--            <version>2.8.6</version>-->
         </dependency>
 
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.8.0</version>
+<!--            <version>2.8.0</version>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.11</version>
+<!--            <version>3.11</version>-->
         </dependency>
 
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jaxrs</artifactId>
-            <version>3.12.1.Final</version>
+<!--            <version>3.12.1.Final</version>-->
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxb-provider</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-multipart-provider</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging</artifactId>
-            <version>3.4.1.Final</version>
+<!--            <version>3.4.1.Final</version>-->
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.12</version>
+<!--            <version>4.5.12</version>-->
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.jboss.arquillian</groupId>
-            <artifactId>arquillian-bom</artifactId>
-            <version>${version.arquillian}</version>
-            <type>pom</type>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.jboss.arquillian</groupId>-->
+<!--            <artifactId>arquillian-bom</artifactId>-->
+<!--&lt;!&ndash;            <version>${version.arquillian}</version>&ndash;&gt;-->
+<!--            <type>pom</type>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
-            <version>${version.arquillian}</version>
+            <!-- fixme: will it work ? -->
+<!--            <version>${version.arquillian}</version>-->
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
             <artifactId>shrinkwrap-resolver-api-maven</artifactId>
-            <version>3.1.3</version>
+<!--            <version>3.1.3</version>-->
+<!--            <version>${version.shrinkwrap.resolvers}</version>-->
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
             <artifactId>shrinkwrap-resolver-depchain</artifactId>
-            <version>3.1.4</version>
+<!--            <version>3.1.4</version>-->
+<!--            <version>${version.shrinkwrap.resolvers}</version>-->
             <type>pom</type>
             <scope>test</scope>
         </dependency>
@@ -134,7 +184,7 @@
         <dependency>
             <groupId>org.wildfly.arquillian</groupId>
             <artifactId>wildfly-arquillian-container-managed</artifactId>
-            <version>2.2.0.Final</version>
+<!--            <version>2.2.0.Final</version>-->
             <scope>test</scope>
         </dependency>
 
@@ -148,6 +198,7 @@
 
 
         <!-- UPDATED -->
+        <!-- TODO: pay attention, do not match ones in JBOSS -->
         <dependency>
             <groupId>io.opentracing.contrib</groupId>
             <artifactId>opentracing-jaxrs2</artifactId>
@@ -195,12 +246,12 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.4.26.Final</version>
+<!--            <version>5.4.26.Final</version>-->
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.4.26.Final</version>
+<!--            <version>5.4.26.Final</version>-->
         </dependency>
 
         <dependency>
@@ -256,18 +307,6 @@
 <!--        </dependency>-->
     </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.jboss.shrinkwrap.resolver</groupId>
-                <artifactId>shrinkwrap-resolver-bom</artifactId>
-                <version>3.1.4</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <build>
         <resources>
             <resource>
@@ -287,9 +326,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
-
                 <configuration>
-                    <release>11</release>
+                    <!-- since java9 only: <release>11</release> -->
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                     <compilerArgument>-Xlint:all</compilerArgument>

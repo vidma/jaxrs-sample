@@ -12,6 +12,7 @@
             <module name="io.opentracing.contrib.opentracing-jaxrs2"/>
             <module name="io.opentracing.contrib.opentracing-interceptors"/>
             <module name="org.eclipse.microprofile.opentracing"/>
+            <!-- do we need to disable this inside JBoss too ?? -->
             <module name="org.wildfly.microprofile.opentracing-smallrye"/>
         </exclusions>
     </deployment>

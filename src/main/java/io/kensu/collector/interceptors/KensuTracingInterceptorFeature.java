@@ -1,9 +1,6 @@
 package io.kensu.collector.interceptors;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,10 +32,22 @@ public class KensuTracingInterceptorFeature implements DynamicFeature {
 
     private final ServerTracingDynamicFeature tracingFeature;
 
+    private static List<ServerSpanDecorator> listOf(ServerSpanDecorator... decs){
+        List<ServerSpanDecorator> l = new ArrayList<>();
+        l.addAll(Arrays.asList(decs));
+        return l;
+    }
+
+    private static List<InterceptorSpanDecorator> listOf(InterceptorSpanDecorator... decs){
+        List<InterceptorSpanDecorator> l = new ArrayList<>();
+        l.addAll(Arrays.asList(decs));
+        return l;
+    }
+
     public KensuTracingInterceptorFeature() {
         Builder builder = new ServerTracingDynamicFeature.Builder(GlobalTracer.get())
-                .withDecorators(List.of(ServerSpanDecorator.STANDARD_TAGS, decorator)).withTraceSerialization(true)
-                .withSerializationDecorators(List.of(InterceptorSpanDecorator.STANDARD_TAGS));
+                .withDecorators(listOf(ServerSpanDecorator.STANDARD_TAGS, decorator)).withTraceSerialization(true)
+                .withSerializationDecorators(listOf(InterceptorSpanDecorator.STANDARD_TAGS));
         this.tracingFeature = builder.build();
     }
 
