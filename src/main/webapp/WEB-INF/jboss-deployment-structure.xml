@@ -7,13 +7,18 @@
         <exclusions>
             <module name="io.jaegertracing.jaeger"/>
             <module name="io.smallrye.opentracing"/>
+            <!-- fixme: don't seem to work alone... at least together with boms -->
             <module name="io.opentracing.opentracing-util"/>
             <module name="io.opentracing.opentracing-api"/>
+            <module name="io.opentracing.opentracing-noop"/>
+            <module name="o.opentracing.contrib.opentracing-concurrent" />
             <module name="io.opentracing.contrib.opentracing-jaxrs2"/>
             <module name="io.opentracing.contrib.opentracing-interceptors"/>
             <module name="org.eclipse.microprofile.opentracing"/>
+            <module name="org.eclipse.microprofile.opentracing.microprofile-opentracing-api"/>
             <!-- do we need to disable this inside JBoss too ?? -->
             <module name="org.wildfly.microprofile.opentracing-smallrye"/>
+            <module name="org.wildfly.microprofile.opentracing"/>
         </exclusions>
     </deployment>
 </jboss-deployment-structure>
